@@ -5,7 +5,9 @@ import os
 from dotenv import load_dotenv
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 from schema import User as SchemaUser
+from schema import Item as ItemSchema, ItemCreate
 from user_crud import create_user, delete_user, get_user_by_id, get_users, update_user
+from item_crud import create_item, get_items
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -39,6 +41,15 @@ def remove_user_by_id(user_id: int):
     was_deleted = delete_user(db.session, user_id)
     return was_deleted
 
+# Items endpoints
+
+@app.post("/items/", response_model=ItemSchema)
+def make_item(item: ItemCreate):
+    return create_item(db.session, item)
+
+@app.get("/items/")
+def load_items():
+    return get_items(db.session)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
