@@ -30,7 +30,8 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
-import models
+# import models
+import backend.app.model.user_model as models
 
 target_metadata = models.Base.metadata
 
