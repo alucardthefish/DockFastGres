@@ -8,10 +8,10 @@ item_router = APIRouter(prefix="/item")
 db = db_session
 
 
-@item_router.post("/", response_model=ItemSchema)
+@item_router.post("/", response_model=ItemSchema, tags=["Items"])
 def make_item(item: ItemCreate):
     return create_item(db.session, item)
 
-@item_router.get("/all")
+@item_router.get("/all", tags=["Items"])
 def load_items():
     return get_items(db.session)
