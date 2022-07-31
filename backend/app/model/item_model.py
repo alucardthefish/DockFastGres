@@ -1,10 +1,11 @@
-from sqlalchemy import Column, Integer, String
-from database import Base
+import sqlalchemy
+from db import metadata
 
 
-class Item(Base):
-    __tablename__ = "items"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String, index=True)
+items = sqlalchemy.Table(
+    "items",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("title", sqlalchemy.String),
+    sqlalchemy.Column("description", sqlalchemy.String),
+)

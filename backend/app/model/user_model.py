@@ -1,11 +1,11 @@
-from sqlalchemy import Column, Integer, String
-from database import Base
+import sqlalchemy
+from db import db, metadata
 
-
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True, index=True)
-    first_name = Column(String)
-    last_name = Column(String)
-    age = Column(Integer)
+users = sqlalchemy.Table(
+    "users",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("first_name", sqlalchemy.String),
+    sqlalchemy.Column("last_name", sqlalchemy.String),
+    sqlalchemy.Column("age", sqlalchemy.Integer),
+)

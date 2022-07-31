@@ -1,16 +1,15 @@
-from sqlalchemy.orm import Session
-from sqlalchemy import select
-from backend.app.model.item_model import Item as ItemModel
-from backend.app.schema.item_schema import ItemCreate
+from backend.app.model.item_model import items
+from db import db
 
+class Item:
+    @classmethod
+    async def get(cls, id):
+        query = items.select().where(items.c.id == id)
+        item = await db.execute(query)
+        return item
 
-def get_items(db: Session):
-    items = select(ItemModel)
-    return db.execute(items).scalars().all()
-
-def create_item(db: Session, item: ItemCreate):
-    db_item = ItemModel(**item.dict())
-    db.add(db_item)
-    db.commit()
-    db.refresh(db_item)
-    return db_item
+    @classmethod
+    async def create(cls, **item):
+        query = items.insert().values(**item)
+        item_id = await db.execute(query)
+        return item_id

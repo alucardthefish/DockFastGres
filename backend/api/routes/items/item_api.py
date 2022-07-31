@@ -1,17 +1,17 @@
 from fastapi import APIRouter
-from backend import db_session
 from backend.app.schema.item_schema import Item as ItemSchema, ItemCreate
-from backend.app.crud.item_crud import create_item, get_items
+from backend.app.crud.item_crud import Item
 
 
 item_router = APIRouter(prefix="/item")
-db = db_session
 
 
 @item_router.post("/", response_model=ItemSchema, tags=["Items"])
-def make_item(item: ItemCreate):
-    return create_item(db.session, item)
+async def create_item(item: ItemCreate):
+    item_id = await Item.create(**item.dict())
+    return {"item_id": item_id}
 
 @item_router.get("/all", tags=["Items"])
-def load_items():
-    return get_items(db.session)
+async def get_item(item_id: int):
+    item = await Item.get(item_id)
+    return item
