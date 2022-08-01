@@ -31,9 +31,11 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 
 # import models
-import backend.app.model.user_model as models
+import backend.app.model.user_model
+import backend.app.model.item_model
+from db import metadata
 
-target_metadata = models.Base.metadata
+target_metadata = metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
