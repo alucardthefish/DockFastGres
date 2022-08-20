@@ -12,4 +12,7 @@ class User:
     async def create(cls, **user):
         query = users.insert().values(**user)
         user_id = await db.execute(query)
+        if user_id:
+            user = await User.get(user_id)
+            return user
         return user_id
